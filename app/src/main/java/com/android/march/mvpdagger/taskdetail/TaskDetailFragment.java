@@ -18,9 +18,12 @@ import android.widget.TextView;
 
 import com.android.march.mvpdagger.R;
 import com.android.march.mvpdagger.addedittask.AddEditTaskActivity;
-import com.android.march.mvpdagger.addedittask.AddEditTaskFragment;
 import com.android.march.mvpdagger.data.TaskBean;
+import com.android.march.mvpdagger.di.ActivityScoped;
 
+import javax.inject.Inject;
+
+@ActivityScoped
 public class TaskDetailFragment extends Fragment implements TaskDetailContract.View {
 
     private static final int REQUEST_EDIT_TASK = 1;
@@ -31,8 +34,8 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
     private TextView tvTitle;
     private TextView tvDescription;
 
-    public static TaskDetailFragment newInstance() {
-        return new TaskDetailFragment();
+    @Inject
+    public TaskDetailFragment() {
     }
 
     @Override
@@ -132,7 +135,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
     @Override
     public void editTask(String taskId) {
         Intent intent = new Intent(getContext(), AddEditTaskActivity.class);
-        intent.putExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID, taskId);
+        intent.putExtra(AddEditTaskActivity.ARGUMENT_EDIT_TASK_ID, taskId);
         startActivityForResult(intent, REQUEST_EDIT_TASK);
     }
 

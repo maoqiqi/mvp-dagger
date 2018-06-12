@@ -11,18 +11,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.march.mvpdagger.R;
+import com.android.march.mvpdagger.di.ActivityScoped;
 
+import javax.inject.Inject;
+
+@ActivityScoped
 public class AddEditTaskFragment extends Fragment implements AddEditTaskContract.View {
-
-    public static final String ARGUMENT_EDIT_TASK_ID = "EDIT_TASK_ID";
 
     private AddEditTaskContract.Presenter presenter;
 
     private EditText editTextTitle;
     private EditText editTextDescription;
 
-    public static AddEditTaskFragment newInstance() {
-        return new AddEditTaskFragment();
+    @Inject
+    public AddEditTaskFragment() {
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.android.march.mvpdagger.addedittask;
 
+import android.support.annotation.Nullable;
+
 import com.android.march.mvpdagger.data.TaskBean;
 import com.android.march.mvpdagger.data.source.TasksDataSource;
 import com.android.march.mvpdagger.data.source.TasksRepository;
@@ -14,16 +16,13 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter {
     private boolean isDataMissing;
 
     @Inject
-    public AddEditTaskPresenter(TasksRepository tasksRepository, AddEditTaskContract.View addEditTaskView, boolean isDataMissing) {
+    public AddEditTaskPresenter(@Nullable String taskId, TasksRepository tasksRepository, AddEditTaskContract.View addEditTaskView, boolean isDataMissing) {
+        this.taskId = taskId;
         this.tasksRepository = tasksRepository;
         this.addEditTaskView = addEditTaskView;
         this.isDataMissing = isDataMissing;
 
         this.addEditTaskView.setPresenter(this);
-    }
-
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
     }
 
     @Override

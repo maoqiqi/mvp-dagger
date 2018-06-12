@@ -1,19 +1,14 @@
 package com.android.march.mvpdagger.tasks;
 
+import com.android.march.mvpdagger.di.ActivityScoped;
+
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 @Module
-public class TasksModule {
+public abstract class TasksModule {
 
-    private final TasksContract.View tasksView;
-
-    public TasksModule(TasksContract.View tasksView) {
-        this.tasksView = tasksView;
-    }
-
-    @Provides
-    TasksContract.View provideTasksView() {
-        return tasksView;
-    }
+    @ActivityScoped
+    @Binds
+    abstract TasksContract.View tasksView(TasksFragment fragment);
 }

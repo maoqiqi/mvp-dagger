@@ -6,19 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.android.march.mvpdagger.R;
-import com.android.march.mvpdagger.ToDoApplication;
-import com.android.march.mvpdagger.taskdetail.DaggerTaskDetailComponent;
-import com.android.march.mvpdagger.taskdetail.TaskDetailModule;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 public class StatisticsActivity extends AppCompatActivity {
 
     @Inject
     StatisticsPresenter statisticsPresenter;
+    @Inject
+    StatisticsFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
@@ -33,14 +35,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
         StatisticsFragment statisticsFragment = (StatisticsFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (statisticsFragment == null) {
-            statisticsFragment = StatisticsFragment.newInstance();
+            statisticsFragment = fragment;
             getSupportFragmentManager().beginTransaction().add(R.id.contentFrame, statisticsFragment).commit();
         }
-
-        DaggerStatisticsComponent.builder()
-                .tasksRepositoryComponent(((ToDoApplication) getApplication()).getTasksRepositoryComponent())
-                .statisticsModule(new StatisticsModule(statisticsFragment))
-                .build().inject(this);
     }
 
     @Override

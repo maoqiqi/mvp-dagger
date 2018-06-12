@@ -9,14 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.march.mvpdagger.R;
+import com.android.march.mvpdagger.di.ActivityScoped;
 
+import javax.inject.Inject;
+
+@ActivityScoped
 public class StatisticsFragment extends Fragment implements StatisticsContract.View {
 
     private StatisticsContract.Presenter presenter;
     private TextView tvStatistics;
 
-    public static StatisticsFragment newInstance() {
-        return new StatisticsFragment();
+    @Inject
+    public StatisticsFragment() {
     }
 
     @Override

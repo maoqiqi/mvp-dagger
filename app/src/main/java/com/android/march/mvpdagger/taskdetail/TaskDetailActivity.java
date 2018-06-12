@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.android.march.mvpdagger.R;
-import com.android.march.mvpdagger.ToDoApplication;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -16,9 +17,12 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     @Inject
     TaskDetailPresenter taskDetailPresenter;
+    @Inject
+    TaskDetailFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
@@ -31,18 +35,11 @@ public class TaskDetailActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        String taskId = getIntent().getStringExtra(EXTRA_TASK_ID);
         TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-
         if (taskDetailFragment == null) {
-            taskDetailFragment = TaskDetailFragment.newInstance();
+            taskDetailFragment = fragment;
             getSupportFragmentManager().beginTransaction().add(R.id.contentFrame, taskDetailFragment).commit();
         }
-
-        DaggerTaskDetailComponent.builder()
-                .tasksRepositoryComponent(((ToDoApplication) getApplication()).getTasksRepositoryComponent())
-                .taskDetailModule(new TaskDetailModule(taskId, taskDetailFragment))
-                .build().inject(this);
     }
 
     @Override

@@ -1,26 +1,24 @@
 package com.android.march.mvpdagger;
 
-import android.app.Application;
+import com.android.march.mvpdagger.data.source.TasksRepository;
+import com.android.march.mvpdagger.di.DaggerAppComponent;
 
-import com.android.march.mvpdagger.data.source.DaggerTasksRepositoryComponent;
-import com.android.march.mvpdagger.data.source.TasksRepositoryComponent;
-import com.android.march.mvpdagger.data.source.TasksRepositoryModule;
+import javax.inject.Inject;
 
-public class ToDoApplication extends Application {
+import dagger.android.AndroidInjector;
+import dagger.android.support.DaggerApplication;
 
-    private TasksRepositoryComponent tasksRepositoryComponent;
+public class ToDoApplication extends DaggerApplication {
+
+    @Inject
+    TasksRepository tasksRepository;
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        tasksRepositoryComponent = DaggerTasksRepositoryComponent.builder()
-                .tasksRepositoryModule(new TasksRepositoryModule())
-                .applicationModule(new ApplicationModule(getApplicationContext()))
-                .build();
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return DaggerAppComponent.builder().application(this).build();
     }
 
-    public TasksRepositoryComponent getTasksRepositoryComponent() {
-        return tasksRepositoryComponent;
+    public TasksRepository getTasksRepository() {
+        return tasksRepository;
     }
 }

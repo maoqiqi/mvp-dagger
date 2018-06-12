@@ -26,12 +26,16 @@ import android.widget.TextView;
 import com.android.march.mvpdagger.R;
 import com.android.march.mvpdagger.addedittask.AddEditTaskActivity;
 import com.android.march.mvpdagger.data.TaskBean;
+import com.android.march.mvpdagger.di.ActivityScoped;
 import com.android.march.mvpdagger.statistics.StatisticsActivity;
 import com.android.march.mvpdagger.taskdetail.TaskDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+@ActivityScoped
 public class TasksFragment extends Fragment implements TasksContract.View {
 
     private TasksContract.Presenter presenter;
@@ -49,8 +53,8 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     private ImageView ivNoTasks;
     private TextView tvNoTasks;
 
-    public static TasksFragment newInstance() {
-        return new TasksFragment();
+    @Inject
+    public TasksFragment() {
     }
 
     @Override

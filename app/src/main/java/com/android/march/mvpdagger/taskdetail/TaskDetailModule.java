@@ -1,26 +1,21 @@
 package com.android.march.mvpdagger.taskdetail;
 
+import com.android.march.mvpdagger.di.ActivityScoped;
+
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class TaskDetailModule {
+public abstract class TaskDetailModule {
 
-    private final String taskId;
-    private final TaskDetailContract.View taskDetailView;
-
-    public TaskDetailModule(String taskId, TaskDetailContract.View taskDetailView) {
-        this.taskId = taskId;
-        this.taskDetailView = taskDetailView;
-    }
+    @ActivityScoped
+    @Binds
+    abstract TaskDetailContract.View taskDetailView(TaskDetailFragment fragment);
 
     @Provides
-    String provideTaskId() {
-        return taskId;
-    }
-
-    @Provides
-    TaskDetailContract.View provideTaskDetailView() {
-        return taskDetailView;
+    @ActivityScoped
+    static String provideTaskId(TaskDetailActivity activity) {
+        return activity.getIntent().getStringExtra(TaskDetailActivity.EXTRA_TASK_ID);
     }
 }
